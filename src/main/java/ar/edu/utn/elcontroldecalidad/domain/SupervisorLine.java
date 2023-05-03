@@ -16,21 +16,27 @@ public class SupervisorLine extends Employee{
      public SupervisorLine(Employee empl) {
         super(empl.getDni(), empl.getSurnameName(), empl.getEmail(), empl.getCred());
     }
-    
+    /*
     public void startProductionOrderStatus(Line line, Model model, SupervisorLine sup){
-        ProductionOrder productionOrder = new ProductionOrder(line, model, sup, Status.START);
+        ProductionOrder productionOrder = new ProductionOrder(line, model, sup, Status.INICIADO);
         FakeData.getInstance().getProdOrder().add(productionOrder);
-    }
+    }*/
     
     public void pauseProductionOrderStatus(ProductionOrder pOrder){
-        pOrder.setStatus(Status.PAUSE);
+        pOrder.setStatus(Status.PAUSADO);
     }
     
     public void continueProductionOrderStatus(ProductionOrder pOrder){
-        pOrder.setStatus(Status.CONTINUE);
+        pOrder.setStatus(Status.CONTINUADO);
     }
     
     public void endProductionOrderStatus(ProductionOrder pOrder){
-        pOrder.setStatus(Status.END);
+        pOrder.setStatus(Status.FINALIZADO);
+    }
+
+    public ProductionOrder startProductionOrderStatus(Line line, Model model) {
+        ProductionOrder productionOrder = new ProductionOrder(line, model, this, Status.INICIADO);
+        FakeData.getInstance().getProdOrder().add(productionOrder);
+        return productionOrder;
     }
 }

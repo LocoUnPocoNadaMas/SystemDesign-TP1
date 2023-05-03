@@ -7,6 +7,7 @@ import ar.edu.utn.elcontroldecalidad.domain.ProductionOrder;
 import ar.edu.utn.elcontroldecalidad.test.FakeData;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,11 +18,12 @@ public class ProductionOrderView extends javax.swing.JFrame {
     static private SupervisorLine supLine;
     //private List<Number> lines = new ArrayList();
     //private List<String> models = new ArrayList();
+    DefaultTableModel tblModel;
 
     /**
      * Creates new form StartProduction
      */
-    public ProductionOrderView(SupervisorLine supLine1) {
+    public ProductionOrderView(SupervisorLine supLine) {
         initComponents();
         var fakeData = FakeData.getInstance();
         //var line1 = new Line(3, "tercera");
@@ -34,6 +36,7 @@ public class ProductionOrderView extends javax.swing.JFrame {
             cBoxModel.addItem(model.getSku());
         });
         this.supLine = supLine;
+        tblModel = (DefaultTableModel) tblMain.getModel();
     }
 
     /**
@@ -46,7 +49,7 @@ public class ProductionOrderView extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblMain = new javax.swing.JTable();
         btnSave = new javax.swing.JButton();
         btnReturn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -62,29 +65,34 @@ public class ProductionOrderView extends javax.swing.JFrame {
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 200));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblMain.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Linea", "Supervisor", "Modelo", "Color"
+                "Linea", "Supervisor", "Modelo", "Estado"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblMain);
 
         btnSave.setText("💾 Guardar");
         btnSave.setActionCommand("btnLogout");
+        btnSave.setEnabled(false);
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -181,7 +189,7 @@ public class ProductionOrderView extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
                         .addComponent(cBoxModel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 236, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnPause)
@@ -195,7 +203,7 @@ public class ProductionOrderView extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(64, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(79, Short.MAX_VALUE)))
         );
 
@@ -217,8 +225,7 @@ public class ProductionOrderView extends javax.swing.JFrame {
         System.err.println("modelo: " + modelo);
         Line line = null;
         for (Line auxLine : FakeData.getInstance().getLines()) {
-            if(auxLine.getNumber().toString().equals(linea))
-            {
+            if (auxLine.getNumber().toString().equals(linea)) {
                 line = auxLine;
                 break;
             }
@@ -226,26 +233,28 @@ public class ProductionOrderView extends javax.swing.JFrame {
         /**
          * No puede haber 2 ordenes de produccion en una misma linea
          */
-        for (ProductionOrder auxProd : FakeData.getInstance().getProdOrder()){
-            if(auxProd.getLine().getNumber().toString().equals(line.getNumber().toString()))
-            {
+        for (ProductionOrder auxProd : FakeData.getInstance().getProdOrder()) {
+            if (auxProd.getLine().getNumber().toString().equals(line.getNumber().toString())) {
                 line = null;
                 System.err.println("Linea en uso");
                 break;
             }
         }
-        
+
         Model model = null;
         for (Model auxModel : FakeData.getInstance().getModels()) {
-            if(auxModel.getSku().equals(modelo))
-            {
+            if (auxModel.getSku().equals(modelo)) {
                 model = auxModel;
                 break;
             }
         }
-        if(line != null && model != null)
-            supLine.startProductionOrderStatus(line, model, supLine);
-        //jTable1.getColumn(line)
+        if (line != null && model != null) {
+            //supLine.startProductionOrderStatus(line, model, supLine);
+            ProductionOrder newProd = supLine.startProductionOrderStatus(line, model);
+            //jTable1.getColumn(line)
+            //System.err.println("asd: "+supLine.getDni());
+            tblModel.addRow(new Object[]{newProd.getLine().getNumber(), newProd.getSupLine().getSurnameName(), newProd.getModel().getSku(), newProd.getStatus()});
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPauseActionPerformed
@@ -315,7 +324,7 @@ public class ProductionOrderView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblMain;
     // End of variables declaration//GEN-END:variables
 
     public JComboBox<String> getcBoxLine() {
@@ -335,12 +344,11 @@ public class ProductionOrderView extends javax.swing.JFrame {
     }
 
     public JTable getjTable1() {
-        return jTable1;
+        return tblMain;
     }
 
     public void setjTable1(JTable jTable1) {
-        this.jTable1 = jTable1;
+        this.tblMain = jTable1;
     }
-    
-    
+
 }
