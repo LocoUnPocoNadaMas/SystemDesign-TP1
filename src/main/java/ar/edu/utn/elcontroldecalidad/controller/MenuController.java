@@ -16,6 +16,7 @@ public final class MenuController {
     //private SupervisorQuality sQuality;
     private Employee employee;
     private boolean uwu;
+    private SupervisorLine supLine;
 
     public MenuController(Employee employee) {
         System.err.println("instance of menu controller");
@@ -23,12 +24,12 @@ public final class MenuController {
 
         switch (this.employee.getCred().getRole()) {
             case QUALITY -> {
-                var user = new SupervisorQuality(employee);
+                var sup = new SupervisorQuality(employee);
                 showSupervisorQuality();
             }
             case LINE -> {
-                var user = new SupervisorLine(employee);
-                Menu prod = new Menu(user);
+                supLine = new SupervisorLine(employee);
+                Menu prod = new Menu(supLine);
                 prod.setVisible(true);
             }
             default ->

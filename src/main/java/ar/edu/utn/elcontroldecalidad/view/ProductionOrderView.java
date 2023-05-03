@@ -1,34 +1,40 @@
 package ar.edu.utn.elcontroldecalidad.view;
 
+import ar.edu.utn.elcontroldecalidad.domain.Line;
 import ar.edu.utn.elcontroldecalidad.domain.Model;
+import ar.edu.utn.elcontroldecalidad.domain.SupervisorLine;
+import ar.edu.utn.elcontroldecalidad.domain.ProductionOrder;
 import ar.edu.utn.elcontroldecalidad.test.FakeData;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
 
 /**
  *
  * @author Pato
  */
-public class ProductionOrder extends javax.swing.JFrame {
-    
+public class ProductionOrderView extends javax.swing.JFrame {
+
+    static private SupervisorLine supLine;
     //private List<Number> lines = new ArrayList();
     //private List<String> models = new ArrayList();
-    
+
     /**
      * Creates new form StartProduction
      */
-    public ProductionOrder() {
+    public ProductionOrderView(SupervisorLine supLine1) {
         initComponents();
         var fakeData = FakeData.getInstance();
         //var line1 = new Line(3, "tercera");
         //fakeData.getLines().add(line1);
         fakeData.getLines().forEach(line -> {
             cBoxLine.addItem(line.getNumber().toString());
-            
+
         });
         fakeData.getModels().forEach((Model model) -> {
             cBoxModel.addItem(model.getSku());
         });
-    }    
-    
+        this.supLine = supLine;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -47,6 +53,10 @@ public class ProductionOrder extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         cBoxModel = new javax.swing.JComboBox<>();
         cBoxLine = new javax.swing.JComboBox<>();
+        btnAdd = new javax.swing.JButton();
+        btnPause = new javax.swing.JButton();
+        btnContinue = new javax.swing.JButton();
+        btnEnd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,9 +70,17 @@ public class ProductionOrder extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Linea", "Supervisor", "Modelo", "Color"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         btnSave.setText("💾 Guardar");
@@ -88,26 +106,64 @@ public class ProductionOrder extends javax.swing.JFrame {
 
         cBoxLine.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
 
+        btnAdd.setText("Agregar");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        btnPause.setText("Pausar");
+        btnPause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPauseActionPerformed(evt);
+            }
+        });
+
+        btnContinue.setText("Continuar");
+        btnContinue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContinueActionPerformed(evt);
+            }
+        });
+
+        btnEnd.setText("Finalizar");
+        btnEnd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEndActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(btnReturn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
-                .addComponent(btnSave)
-                .addGap(42, 42, 42))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(cBoxModel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58)
+                        .addComponent(cBoxLine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAdd)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnPause)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnContinue)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEnd)))
+                .addContainerGap(20, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(cBoxModel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(cBoxLine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(btnReturn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSave)
+                .addGap(33, 33, 33))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -125,11 +181,17 @@ public class ProductionOrder extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
                         .addComponent(cBoxModel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnPause)
+                    .addComponent(btnContinue)
+                    .addComponent(btnEnd))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnReturn)
                     .addComponent(btnSave))
-                .addGap(26, 26, 26))
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(64, Short.MAX_VALUE)
@@ -147,6 +209,57 @@ public class ProductionOrder extends javax.swing.JFrame {
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnReturnActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        String linea = cBoxLine.getSelectedItem().toString();
+        System.err.println("linea: " + linea);
+        String modelo = cBoxModel.getSelectedItem().toString();
+        System.err.println("modelo: " + modelo);
+        Line line = null;
+        for (Line auxLine : FakeData.getInstance().getLines()) {
+            if(auxLine.getNumber().toString().equals(linea))
+            {
+                line = auxLine;
+                break;
+            }
+        }
+        /**
+         * No puede haber 2 ordenes de produccion en una misma linea
+         */
+        for (ProductionOrder auxProd : FakeData.getInstance().getProdOrder()){
+            if(auxProd.getLine().getNumber().toString().equals(line.getNumber().toString()))
+            {
+                line = null;
+                System.err.println("Linea en uso");
+                break;
+            }
+        }
+        
+        Model model = null;
+        for (Model auxModel : FakeData.getInstance().getModels()) {
+            if(auxModel.getSku().equals(modelo))
+            {
+                model = auxModel;
+                break;
+            }
+        }
+        if(line != null && model != null)
+            supLine.startProductionOrderStatus(line, model, supLine);
+        //jTable1.getColumn(line)
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPauseActionPerformed
+        // TODO add your handling code here:
+        //supLine.pauseProductionOrderStatus(pOrder);
+    }//GEN-LAST:event_btnPauseActionPerformed
+
+    private void btnContinueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinueActionPerformed
+        //supLine.continueProductionOrderStatus(pOrder);
+    }//GEN-LAST:event_btnContinueActionPerformed
+
+    private void btnEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEndActionPerformed
+        //supLine.endProductionOrderStatus(pOrder);
+    }//GEN-LAST:event_btnEndActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,12 +298,16 @@ public class ProductionOrder extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProductionOrder().setVisible(true);
+                new ProductionOrderView(supLine).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnContinue;
+    private javax.swing.JButton btnEnd;
+    private javax.swing.JButton btnPause;
     private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cBoxLine;
@@ -201,19 +318,29 @@ public class ProductionOrder extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
-    public javax.swing.JComboBox<String> getjComboBox1() {
-        return cBoxModel;
-    }
-
-    public void setjComboBox1(javax.swing.JComboBox<String> jComboBox1) {
-        this.cBoxModel = jComboBox1;
-    }
-
-    public javax.swing.JComboBox<String> getjComboBox2() {
+    public JComboBox<String> getcBoxLine() {
         return cBoxLine;
     }
 
-    public void setjComboBox2(javax.swing.JComboBox<String> jComboBox2) {
-        this.cBoxLine = jComboBox2;
+    public void setcBoxLine(JComboBox<String> cBoxLine) {
+        this.cBoxLine = cBoxLine;
     }
+
+    public JComboBox<String> getcBoxModel() {
+        return cBoxModel;
+    }
+
+    public void setcBoxModel(JComboBox<String> cBoxModel) {
+        this.cBoxModel = cBoxModel;
+    }
+
+    public JTable getjTable1() {
+        return jTable1;
+    }
+
+    public void setjTable1(JTable jTable1) {
+        this.jTable1 = jTable1;
+    }
+    
+    
 }

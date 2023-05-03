@@ -8,21 +8,20 @@ import ar.edu.utn.elcontroldecalidad.domain.SupervisorLine;
  * @author Pato
  */
 public class Menu extends javax.swing.JFrame {
-    
-    private SupervisorLine line; 
+
+    private SupervisorLine supLine;
 
     /**
      * Creates new form StartProduction
      */
     public Menu(SupervisorLine sup) {
         initComponents();
-        this.line = sup;
+        this.supLine = sup;
     }
-    
+
     public Menu() {
         initComponents();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,7 +32,7 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnStartProdOrder = new javax.swing.JButton();
+        btnProdOrder = new javax.swing.JButton();
         btnManageModels = new javax.swing.JButton();
         btnManageColors = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -43,11 +42,11 @@ public class Menu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnStartProdOrder.setText("Iniciar Orden de Producción");
-        btnStartProdOrder.setActionCommand("");
-        btnStartProdOrder.addActionListener(new java.awt.event.ActionListener() {
+        btnProdOrder.setText("Ordenar Producción");
+        btnProdOrder.setActionCommand("");
+        btnProdOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStartProdOrderActionPerformed(evt);
+                btnProdOrderActionPerformed(evt);
             }
         });
 
@@ -97,7 +96,7 @@ public class Menu extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnManageColors, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnStartProdOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnProdOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnManageModels, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -116,7 +115,7 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnStartProdOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnProdOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnManageModels, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -133,10 +132,10 @@ public class Menu extends javax.swing.JFrame {
         LoginController.getInstance().showForm();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
-    private void btnStartProdOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartProdOrderActionPerformed
-        ProductionOrder pOrder = new ProductionOrder();
+    private void btnProdOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdOrderActionPerformed
+        ProductionOrderView pOrder = new ProductionOrderView(supLine);
         pOrder.setVisible(true);
-    }//GEN-LAST:event_btnStartProdOrderActionPerformed
+    }//GEN-LAST:event_btnProdOrderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,19 +177,18 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnManageColors;
     private javax.swing.JButton btnManageModels;
-    private javax.swing.JButton btnStartProdOrder;
+    private javax.swing.JButton btnProdOrder;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 
     public javax.swing.JButton getBtnStartProdOrder() {
-        return btnStartProdOrder;
+        return btnProdOrder;
     }
 
     public void setBtnStartProdOrder(javax.swing.JButton btnStartProdOrder) {
-        this.btnStartProdOrder = btnStartProdOrder;
+        this.btnProdOrder = btnStartProdOrder;
     }
 
-    
 }
