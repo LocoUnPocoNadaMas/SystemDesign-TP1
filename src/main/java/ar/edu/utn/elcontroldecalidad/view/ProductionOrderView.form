@@ -152,6 +152,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tblMainFocusGained"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

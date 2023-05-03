@@ -4,6 +4,10 @@ import ar.edu.utn.elcontroldecalidad.domain.Line;
 import ar.edu.utn.elcontroldecalidad.domain.Model;
 import ar.edu.utn.elcontroldecalidad.domain.SupervisorLine;
 import ar.edu.utn.elcontroldecalidad.domain.ProductionOrder;
+import static ar.edu.utn.elcontroldecalidad.domain.enums.Status.CONTINUADO;
+import static ar.edu.utn.elcontroldecalidad.domain.enums.Status.FINALIZADO;
+import static ar.edu.utn.elcontroldecalidad.domain.enums.Status.INICIADO;
+import static ar.edu.utn.elcontroldecalidad.domain.enums.Status.PAUSADO;
 import ar.edu.utn.elcontroldecalidad.test.FakeData;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -86,6 +90,11 @@ public class ProductionOrderView extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblMain.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tblMainFocusGained(evt);
             }
         });
         jScrollPane1.setViewportView(tblMain);
@@ -258,17 +267,41 @@ public class ProductionOrderView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPauseActionPerformed
-        // TODO add your handling code here:
-        //supLine.pauseProductionOrderStatus(pOrder);
+        Integer aux = (Integer) tblMain.getValueAt(tblMain.getSelectedRow(), 0);
+        for(ProductionOrder pOrder: FakeData.getInstance().getProdOrder()){
+            if(pOrder.getStatus().equals(INICIADO)){
+                if(pOrder.getLine().getNumber() == aux)
+                    supLine.pauseProductionOrderStatus(pOrder);
+            }
+        }
+        tblMain.setValueAt(PAUSADO, tblMain.getSelectedRow(), 3);
     }//GEN-LAST:event_btnPauseActionPerformed
 
     private void btnContinueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinueActionPerformed
-        //supLine.continueProductionOrderStatus(pOrder);
+        Integer aux = (Integer) tblMain.getValueAt(tblMain.getSelectedRow(), 0);
+        for(ProductionOrder pOrder: FakeData.getInstance().getProdOrder()){
+            if(pOrder.getStatus().equals(PAUSADO)){
+                if(pOrder.getLine().getNumber() == aux)
+                    supLine.continueProductionOrderStatus(pOrder);
+            }
+        }
+        tblMain.setValueAt(CONTINUADO, tblMain.getSelectedRow(), 3);
     }//GEN-LAST:event_btnContinueActionPerformed
 
     private void btnEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEndActionPerformed
-        //supLine.endProductionOrderStatus(pOrder);
+        Integer aux = (Integer) tblMain.getValueAt(tblMain.getSelectedRow(), 0);
+        for(ProductionOrder pOrder: FakeData.getInstance().getProdOrder()){
+            if(pOrder.getStatus().equals(INICIADO) || pOrder.getStatus().equals(PAUSADO) || pOrder.getStatus().equals(CONTINUADO)){
+                if(pOrder.getLine().getNumber() == aux)
+                    supLine.endProductionOrderStatus(pOrder);
+            }
+        }
+        tblMain.setValueAt(FINALIZADO, tblMain.getSelectedRow(), 3);
     }//GEN-LAST:event_btnEndActionPerformed
+
+    private void tblMainFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblMainFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblMainFocusGained
 
     /**
      * @param args the command line arguments
