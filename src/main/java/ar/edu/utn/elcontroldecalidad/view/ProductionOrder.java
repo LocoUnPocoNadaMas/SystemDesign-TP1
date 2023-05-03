@@ -1,11 +1,7 @@
 package ar.edu.utn.elcontroldecalidad.view;
 
-import ar.edu.utn.elcontroldecalidad.domain.Line;
 import ar.edu.utn.elcontroldecalidad.domain.Model;
 import ar.edu.utn.elcontroldecalidad.test.FakeData;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JComboBox;
 
 /**
  *
@@ -22,8 +18,8 @@ public class ProductionOrder extends javax.swing.JFrame {
     public ProductionOrder() {
         initComponents();
         var fakeData = FakeData.getInstance();
-        var line1 = new Line(3, "tercera");
-        fakeData.getLines().add(line1);
+        //var line1 = new Line(3, "tercera");
+        //fakeData.getLines().add(line1);
         fakeData.getLines().forEach(line -> {
             cBoxLine.addItem(line.getNumber().toString());
             

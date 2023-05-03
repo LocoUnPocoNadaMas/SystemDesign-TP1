@@ -5,6 +5,7 @@ import ar.edu.utn.elcontroldecalidad.domain.Credentials;
 import ar.edu.utn.elcontroldecalidad.domain.Employee;
 import ar.edu.utn.elcontroldecalidad.domain.Line;
 import ar.edu.utn.elcontroldecalidad.domain.Model;
+import ar.edu.utn.elcontroldecalidad.domain.ProductionOrder;
 import ar.edu.utn.elcontroldecalidad.domain.enums.Role;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class FakeData {
     private List<Color> colors = new ArrayList();
     private List<Line> lines = new ArrayList();
     private List<Model> models = new ArrayList();
+    private List<ProductionOrder> prodOrder = new ArrayList();
     
     private static FakeData INSTANCE;    
     
@@ -112,4 +114,10 @@ public class FakeData {
     public List<Employee> getEmployees() {
         return employees;
     }
+
+    public List<ProductionOrder> getProdOrder() {
+        return prodOrder;
+    }
+    
+    
 }
