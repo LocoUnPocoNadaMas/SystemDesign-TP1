@@ -1,8 +1,8 @@
 package ar.edu.utn.elcontroldecalidad.controller;
 
+import ar.edu.utn.elcontroldecalidad.domain.Employee;
 import ar.edu.utn.elcontroldecalidad.test.FakeData;
 import ar.edu.utn.elcontroldecalidad.view.Login;
-import ar.edu.utn.elcontroldecalidad.view.Menu;
 
 /**
  * Controlador de la vista de inicio de sesión
@@ -10,14 +10,16 @@ import ar.edu.utn.elcontroldecalidad.view.Menu;
  * @author Pato
  */
 public class LoginController {
-
-    private static FakeData fakeData = new FakeData();
+        
+//private static FakeData fakeData = new FakeData();
+        private static Login login;
+    //private MenuController menuController;
 
     private static LoginController INSTANCE;
     
-    private static Login login;
 
     private LoginController() {
+        System.err.println("Instance of Log");
     }
 
     public static LoginController getInstance() {
@@ -32,10 +34,10 @@ public class LoginController {
         login = new Login();
         login.setVisible(true);
     }
-    
-    //StartProduction form = null;
 
+    //StartProduction form = null;
     public void checkCredetials(String user, String pass) {
+        var fakeData = FakeData.getInstance();
         //final Menu form;
         if (user.isEmpty()) {
             System.err.println("ingrese usuario");
@@ -45,26 +47,24 @@ public class LoginController {
             System.err.println("ingrese contraseña");
             return;
         }
-        if (fakeData.getSupLines() == null) {
-            System.err.println("nullllll");
+        if (fakeData == null) {
+            System.err.println("falta fakeData");
         } else {
-            System.err.println("fake data being feke data");
-            fakeData.getSupLines().forEach((sup) -> {
-                if (sup.getPass().equals(pass) && sup.getUser().equals(user)) {
-                    startProduction();
-                }
-            });
-            fakeData.getSupQuals().forEach((sup) -> {
-                if (sup.getPass().equals(pass) && sup.getUser().equals(user)) {
-
+            //System.err.println("fake data being feke data");
+            fakeData.getEmployees().forEach((empl) -> {
+                if (empl.getCred().getPass().equals(pass) && empl.getCred().getUser().equals(user)) {
+                    startProduction(empl);
                 }
             });
         }
     }
-    
-    private void startProduction(){
-        login.dispose();
-        Menu prod = new Menu();
-        prod.setVisible(true);
+
+    private void startProduction(Employee empl) {
+        if (null == empl) {
+            System.err.println("Usuario Invalido");
+        } else {
+            login.dispose();
+            MenuController menu = new MenuController(empl);
+        }
     }
 }

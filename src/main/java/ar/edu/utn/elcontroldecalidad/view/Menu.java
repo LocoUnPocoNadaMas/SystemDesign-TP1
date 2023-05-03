@@ -1,7 +1,7 @@
 package ar.edu.utn.elcontroldecalidad.view;
 
 import ar.edu.utn.elcontroldecalidad.controller.LoginController;
-import ar.edu.utn.elcontroldecalidad.controller.MenuController;
+import ar.edu.utn.elcontroldecalidad.domain.SupervisorLine;
 
 /**
  *
@@ -9,22 +9,20 @@ import ar.edu.utn.elcontroldecalidad.controller.MenuController;
  */
 public class Menu extends javax.swing.JFrame {
     
-    private MenuController productionController;
-    private String a;
-    private String b;
+    private SupervisorLine line; 
 
     /**
      * Creates new form StartProduction
      */
+    public Menu(SupervisorLine sup) {
+        initComponents();
+        this.line = sup;
+    }
+    
     public Menu() {
         initComponents();
     }
     
-    public Menu(String a, String b) {
-        initComponents();
-        this.a = a;
-        this.b = b;
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,12 +33,31 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnStartProdOrder = new javax.swing.JButton();
+        btnManageModels = new javax.swing.JButton();
+        btnManageColors = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
         btnLogout = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnLogout.setText("Cerrar Sesión");
+        btnStartProdOrder.setText("Iniciar Orden de Producción");
+        btnStartProdOrder.setActionCommand("");
+        btnStartProdOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStartProdOrderActionPerformed(evt);
+            }
+        });
+
+        btnManageModels.setText("Gestionar Modelos");
+        btnManageModels.setEnabled(false);
+
+        btnManageColors.setText("Gestionar Colores");
+        btnManageColors.setEnabled(false);
+
+        btnLogout.setText("🔑 Cerrar Sesión");
         btnLogout.setActionCommand("btnLogout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -48,27 +65,63 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("jButton2");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(43, Short.MAX_VALUE)
+                .addComponent(btnLogout)
+                .addGap(38, 38, 38))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnLogout)
+                .addGap(13, 13, 13))
+        );
+
+        jLabel1.setText("Menu Principal");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
-                .addComponent(btnLogout)
-                .addGap(72, 72, 72))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnManageColors, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnStartProdOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnManageModels, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(67, 67, 67)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(251, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(btnLogout))
-                .addGap(26, 26, 26))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnStartProdOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnManageModels, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnManageColors, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         pack();
@@ -76,8 +129,14 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         this.dispose();
+//        this.setVisible(false);
         LoginController.getInstance().showForm();
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnStartProdOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartProdOrderActionPerformed
+        ProductionOrder pOrder = new ProductionOrder();
+        pOrder.setVisible(true);
+    }//GEN-LAST:event_btnStartProdOrderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -117,6 +176,21 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogout;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnManageColors;
+    private javax.swing.JButton btnManageModels;
+    private javax.swing.JButton btnStartProdOrder;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
+
+    public javax.swing.JButton getBtnStartProdOrder() {
+        return btnStartProdOrder;
+    }
+
+    public void setBtnStartProdOrder(javax.swing.JButton btnStartProdOrder) {
+        this.btnStartProdOrder = btnStartProdOrder;
+    }
+
+    
 }

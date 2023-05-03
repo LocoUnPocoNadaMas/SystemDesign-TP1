@@ -4,19 +4,17 @@ package ar.edu.utn.elcontroldecalidad.domain;
  *
  * @author Pato
  */
-public abstract class Employee {
+public class Employee {
     private Integer dni;
     private String surnameName;
     private String email;
-    private String user;
-    private String pass;
+    private Credentials cred;
 
-    public Employee(Integer dni, String surnameName, String email, String user, String pass) {
+    public Employee(Integer dni, String surnameName, String email, Credentials cred) {
         this.dni = dni;
         this.surnameName = surnameName;
         this.email = email;
-        this.user = user;
-        this.pass = pass;
+        this.cred = cred;
     }
 
     public Integer getDni() {
@@ -31,13 +29,7 @@ public abstract class Employee {
         return email;
     }
 
-    public String getUser() {
-        return user;
+    public Credentials getCred() {
+        return cred;
     }
-
-    public String getPass() {
-        return pass;
-    }
-    
-    
 }

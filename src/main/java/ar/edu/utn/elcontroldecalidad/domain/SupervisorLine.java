@@ -6,11 +6,14 @@ package ar.edu.utn.elcontroldecalidad.domain;
  */
 public class SupervisorLine extends Employee{
 
-    public SupervisorLine(Integer dni, String surnameName, String email, String user, String pass) {
-        super(dni, surnameName, email, user, pass);
+    public SupervisorLine(Integer dni, String surnameName, String email, Credentials cred) {
+        super(dni, surnameName, email, cred);
     }
-
+    
+     public SupervisorLine(Employee empl) {
+        super(empl.getDni(), empl.getSurnameName(), empl.getEmail(), empl.getCred());
+    }
+    
     public void changeProductionOrderStatus(){
-        
     }
 }
